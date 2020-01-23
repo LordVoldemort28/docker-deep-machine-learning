@@ -1,6 +1,8 @@
 FROM ubuntu:18.04
 MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
+#github https://github.com/LordVoldemort28/docker-deep-machine-learning
+
 #Credit - waleedka/modern-deep-learning
 #https://hub.docker.com/r/waleedka/modern-deep-learning/ 
 
