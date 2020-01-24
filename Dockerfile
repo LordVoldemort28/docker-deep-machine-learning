@@ -21,12 +21,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake \ 
     libopenblas-dev 
 
-# Python 3.6
+# Python 3.5
 # For convenience, alias (but don't sym-link) python & pip to python3 & pip3 as recommended in:
 # http://askubuntu.com/questions/351318/changing-symlink-python-to-python3-causes-problems
 RUN apt-get install -y --no-install-recommends \
-    python3.6 \
-    python3.6-dev \
+    python3.5 \
+    python3.5-dev \
     python3-pip \
     python3-tk \
     && pip3 install --no-cache-dir --upgrade pip setuptools \
