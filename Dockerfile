@@ -60,7 +60,7 @@ RUN pip3 install --no-cache-dir --upgrade pycocotools
 
 
 ENV NCCL_VERSION 2.5.6
-ENV CUDA_PKG_VERSION 10.2
+ENV CUDA_PKG_VERSION 9.0
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
