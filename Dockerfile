@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \ 
     unzip \ 
     wget \
-    nvidia-container-toolkit \ 
     build-essential cmake \ 
     libopenblas-dev 
 
