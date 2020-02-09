@@ -6,7 +6,6 @@ MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 #Credit - waleedka/modern-deep-learning
 #https://hub.docker.com/r/waleedka/modern-deep-learning/ 
 
-
 # Supress warnings about missing front-end. As recommended at:
 # http://stackoverflow.com/questions/22466255/is-it-possibe-to-answer-dialog-questions-when-installing-under-docker
 ARG DEBIAN_FRONTEND=noninteractive
@@ -58,6 +57,10 @@ RUN pip3 install --no-cache-dir --upgrade h5py pydot_ng keras
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
+
+
+ENV NCCL_VERSION 2.5.6
+ENV CUDA_PKG_VERSION 10.2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
