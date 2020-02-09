@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \ 
     vim \ 
     unzip \ 
-    wget \ 
+    wget \
+    nvidia-container-toolkit \ 
     build-essential cmake \ 
     libopenblas-dev 
 
@@ -58,6 +59,15 @@ RUN pip3 install --no-cache-dir --upgrade h5py pydot_ng keras
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-libraries-$CUDA_PKG_VERSION \
+cuda-nvtx-$CUDA_PKG_VERSION \
+libcublas10=10.2.2.89-1 \
+libnccl2=$NCCL_VERSION-1+cuda10.2 && \
+    apt-mark hold libnccl2 && \
+    rm -rf /var/lib/apt/lists/*
+
 
 RUN pip install --upgrade pip
 
