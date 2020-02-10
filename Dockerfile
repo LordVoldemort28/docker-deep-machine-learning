@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM nvidia/cuda:10.0-base-ubuntu16.04
 MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
 #github https://github.com/LordVoldemort28/docker-deep-machine-learning
@@ -57,19 +57,6 @@ RUN pip3 install --no-cache-dir --upgrade h5py pydot_ng keras
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
-
-
-ENV NCCL_VERSION 2.5.6
-ENV CUDA_PKG_VERSION 9.0
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-libraries-$CUDA_PKG_VERSION \
-cuda-nvtx-$CUDA_PKG_VERSION \
-libcublas10=10.2.2.89-1 \
-libnccl2=$NCCL_VERSION-1+cuda10.2 && \
-    apt-mark hold libnccl2 && \
-    rm -rf /var/lib/apt/lists/*
-
 
 RUN pip install --upgrade pip
 
