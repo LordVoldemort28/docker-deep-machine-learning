@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-base-ubuntu16.04
+FROM unlhcc/cuda-ubuntu:10.0
 MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
 #github https://github.com/LordVoldemort28/docker-deep-machine-learning
