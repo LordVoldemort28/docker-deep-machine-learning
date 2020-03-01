@@ -38,7 +38,7 @@ RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev && \
 
 # Science libraries and other common packages
 RUN pip3 --no-cache-dir install \
-    numpy scipy sklearn scikit-image pandas matplotlib Cython requests
+    numpy scipy sklearn scikit-image pandas matplotlib requests
 
 # PyTorch
 RUN pip3 install --no-cache-dir --upgrade torch torchvision
@@ -53,7 +53,7 @@ EXPOSE 6006
 RUN apt-get install -y --no-install-recommends default-jdk
 
 # Keras 2.3.1
-RUN pip3 install --no-cache-dir --upgrade h5py pydot_ng keras
+RUN pip3 install --no-cache-dir --upgrade Cython h5py pydot_ng keras
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
