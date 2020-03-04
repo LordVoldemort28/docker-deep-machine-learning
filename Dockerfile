@@ -1,4 +1,4 @@
-FROM unlhcc/cuda-ubuntu:10.0
+FROM unlhcc/cuda-ubuntu:9.2
 MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
 #github https://github.com/LordVoldemort28/docker-deep-machine-learning
@@ -40,10 +40,10 @@ RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev && \
 RUN pip3 --no-cache-dir install \
     numpy scipy sklearn scikit-image pandas matplotlib requests
 
-# PyTorch
-RUN pip3 install --no-cache-dir --upgrade torch torchvision
+# Install PyTorch (and friends) for both Python 3.5
+RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' numpy scipy scikit-learn scikit-image 'networkx==2.0'
 
-# Tensorflow 2.1.0
+#Tensorflow 2.1.0
 RUN pip3 install --no-cache-dir --upgrade tensorflow 
 
 # Expose port for TensorBoard
