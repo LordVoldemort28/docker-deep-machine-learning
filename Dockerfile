@@ -41,7 +41,7 @@ RUN pip3 --no-cache-dir install \
     numpy scipy sklearn scikit-image pandas matplotlib requests
 
 # Install PyTorch (and friends) for both Python 3.5
-RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' numpy scipy scikit-learn scikit-image 'networkx==2.0'
+RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' torchsummary numpy scipy scikit-learn scikit-image 'networkx==2.0'
 
 #Tensorflow 2.1.0
 RUN pip3 install --no-cache-dir --upgrade tensorflow 
