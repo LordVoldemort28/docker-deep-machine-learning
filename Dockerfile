@@ -34,7 +34,7 @@ RUN apt-get install -y --no-install-recommends \
 
 # Pillow and it's dependencies
 RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev && \
-    pip3 --no-cache-dir install Pillow
+    pip3 --no-cache-dir install 'pillow<7'
 
 # Science libraries and other common packages
 RUN pip3 --no-cache-dir install \
@@ -57,6 +57,23 @@ RUN pip3 install --no-cache-dir --upgrade Cython h5py pydot_ng keras
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
+
+#Opencv
+RUN apt-get install -y --no-install-recommends \
+    libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev \
+    libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev \
+    liblapacke-dev checkinstall
+# Get source from github
+RUN git clone -b 3.4.1 --depth 1 https://github.com/opencv/opencv.git /usr/local/src/opencv
+# Compile
+RUN cd /usr/local/src/opencv && mkdir build && cd build && \
+    cmake -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D BUILD_TESTS=OFF \
+          -D BUILD_PERF_TESTS=OFF \
+          -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
+          .. && \
+    make -j"$(nproc)" && \
+    make install
 
 RUN pip install --upgrade pip
 
