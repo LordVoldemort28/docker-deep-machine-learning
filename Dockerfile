@@ -43,37 +43,19 @@ RUN pip3 --no-cache-dir install \
 # Install PyTorch (and friends) for both Python 3.5
 RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' torchsummary numpy scipy scikit-learn scikit-image 'networkx==2.0'
 
-#Tensorflow 2.1.0
-RUN pip3 install --no-cache-dir --upgrade tensorflow 
-
-# Expose port for TensorBoard
-EXPOSE 6006
-
 # Java
 RUN apt-get install -y --no-install-recommends default-jdk
-
-# Keras 2.3.1
-RUN pip3 install --no-cache-dir --upgrade Cython h5py pydot_ng keras
+# Cython
+RUN pip3 install --no-cache-dir --upgrade Cython cython
 
 # PyCocoTools
 RUN pip3 install --no-cache-dir --upgrade pycocotools
+# PrettyTable
+RUN pip3 install --no-cache-dir --upgrade PrettyTable
+# TensorBoardX
+RUN pip3 install --no-cache-dir --upgrade tensorboard future
 
-#Opencv
-RUN apt-get install -y --no-install-recommends \
-    libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev \
-    libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev \
-    liblapacke-dev checkinstall
-# Get source from github
-RUN git clone -b 3.4.1 --depth 1 https://github.com/opencv/opencv.git /usr/local/src/opencv
-# Compile
-RUN cd /usr/local/src/opencv && mkdir build && cd build && \
-    cmake -D CMAKE_INSTALL_PREFIX=/usr/local \
-          -D BUILD_TESTS=OFF \
-          -D BUILD_PERF_TESTS=OFF \
-          -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
-          .. && \
-    make -j"$(nproc)" && \
-    make install
+EXPOSE 6006
 
 RUN pip install --upgrade pip
 
