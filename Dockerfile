@@ -1,4 +1,4 @@
-FROM unlhcc/cuda-ubuntu:9.2
+FROM unlhcc/cuda-ubuntu:10.2
 MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
 #github https://github.com/LordVoldemort28/docker-deep-machine-learning
@@ -41,7 +41,7 @@ RUN pip3 --no-cache-dir install \
     numpy scipy sklearn scikit-image pandas matplotlib requests
 
 # Install PyTorch (and friends) for both Python 3.5
-RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' torchsummary numpy scipy scikit-learn scikit-image 'networkx==2.0'
+RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' torchsummary scikit-learn 'networkx==2.0'
 
 # Java
 RUN apt-get install -y --no-install-recommends default-jdk
@@ -54,6 +54,8 @@ RUN pip3 install --no-cache-dir --upgrade pycocotools
 RUN pip3 install --no-cache-dir --upgrade PrettyTable
 # TensorBoardX
 RUN pip3 install --no-cache-dir --upgrade tensorboard future
+#Nvidia-dali
+RUN pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/cuda/10.0 nvidia-dali
 
 EXPOSE 6006
 
