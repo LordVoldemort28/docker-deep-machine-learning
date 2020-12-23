@@ -66,10 +66,13 @@ RUN pip3 install --no-cache-dir --upgrade comet-ml
 
 # Pytorch lighting and lighting bolt
 RUN pip3 install git+https://github.com/PytorchLightning/pytorch-lightning-bolts.git@master --upgrade
-RUN pip3 install git+https://github.com/PytorchLightning/pytorch-lightning.git@master --upgrade
+RUN pip3 install --no-cache-dir --upgrade 'pytorch-lightning==1.1.2' 
 
 # Open CV
 RUN pip3 install opencv-python
+
+# Skimage and shapely
+RUN pip3 install --no-cache-dir --upgrade 'shapely==1.7.0' 'scikit-image==0.16.2'
 
 # Expose port for TensorBoard
 EXPOSE 6006
