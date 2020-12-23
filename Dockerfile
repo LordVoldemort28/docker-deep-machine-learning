@@ -1,5 +1,5 @@
-FROM unlhcc/cuda-ubuntu:9.2
-MAINTAINER Rahul Prajapati <rahul.prajapati90904@gmail.com>
+FROM unlhcc/cuda-ubuntu:10.2
+LABEL Rahul Prajapati <rahul.prajapati90904@gmail.com>
 
 #github https://github.com/LordVoldemort28/docker-deep-machine-learning
 
@@ -14,23 +14,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \ 
     git \ 
     curl \ 
+    zsh \
     vim \ 
     unzip \ 
     wget \
     build-essential cmake \ 
     libopenblas-dev 
 
-# Python 3.5
+# Python 3.7
 # For convenience, alias (but don't sym-link) python & pip to python3 & pip3 as recommended in:
 # http://askubuntu.com/questions/351318/changing-symlink-python-to-python3-causes-problems
-RUN apt-get install -y --no-install-recommends \
-    python3.5 \
-    python3.5-dev \
-    python3-pip \
-    python3-tk \
-    && pip3 install --no-cache-dir --upgrade pip setuptools \
-    && echo "alias python='python3'" >> /root/.bash_aliases \
-    && echo "alias pip='pip3'" >> /root/.bash_aliases
+RUN add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update
+
+RUN apt-get install -y python3.7 python3.7-dev \
+    && cd /usr/bin \
+    && ln -s /usr/bin/python3.7 python 
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3.7 get-pip.py \
+    && echo "alias python3='python3.7'" >> /root/.bash_aliases \
+    && echo "alias pip='pip3'" >> /root/.bash_aliases \
+    && /bin/bash -c "source /root/.bash_aliases" \
+    && pip3 install --upgrade pip
 
 # Pillow and it's dependencies
 RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev && \
@@ -41,41 +47,35 @@ RUN pip3 --no-cache-dir install \
     numpy scipy sklearn scikit-image pandas matplotlib requests
 
 # Install PyTorch (and friends) for both Python 3.5
-RUN pip3 --no-cache-dir install 'torchvision==0.4.0' 'torch==1.2.0' torchsummary numpy scipy scikit-learn scikit-image 'networkx==2.0'
-
-#Tensorflow 2.1.0
-RUN pip3 install --no-cache-dir --upgrade tensorflow 
-
-# Expose port for TensorBoard
-EXPOSE 6006
+RUN pip3 --no-cache-dir install 'torchvision==0.7.0' 'torch==1.6.0' torchsummary scikit-learn 'networkx==2.0'
 
 # Java
 RUN apt-get install -y --no-install-recommends default-jdk
 
-# Keras 2.3.1
-RUN pip3 install --no-cache-dir --upgrade Cython h5py pydot_ng keras
+# Cython
+RUN pip3 install --no-cache-dir --upgrade Cython cython
 
-# PyCocoTools
-RUN pip3 install --no-cache-dir --upgrade pycocotools
+# Streamlit & Pretty table
+RUN pip3 install streamlit PrettyTable
 
-#Opencv
-RUN apt-get install -y --no-install-recommends \
-    libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev \
-    libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev \
-    liblapacke-dev checkinstall
-# Get source from github
-RUN git clone -b 3.4.1 --depth 1 https://github.com/opencv/opencv.git /usr/local/src/opencv
-# Compile
-RUN cd /usr/local/src/opencv && mkdir build && cd build && \
-    cmake -D CMAKE_INSTALL_PREFIX=/usr/local \
-          -D BUILD_TESTS=OFF \
-          -D BUILD_PERF_TESTS=OFF \
-          -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
-          .. && \
-    make -j"$(nproc)" && \
-    make install
+# Tensorboard
+RUN pip3 install --no-cache-dir --upgrade tensorboard 
 
-RUN pip install --upgrade pip
+# Comet-ml
+RUN pip3 install --no-cache-dir --upgrade comet-ml
+
+# Pytorch lighting and lighting bolt
+RUN pip3 install git+https://github.com/PytorchLightning/pytorch-lightning-bolts.git@master --upgrade
+RUN pip3 install --no-cache-dir --upgrade 'pytorch-lightning==1.1.2' 
+
+# Open CV
+RUN pip3 install opencv-python
+
+# Skimage and shapely
+RUN pip3 install --no-cache-dir --upgrade 'shapely==1.7.0' 'scikit-image==0.16.2'
+
+# Expose port for TensorBoard
+EXPOSE 6006
 
 WORKDIR "/root"
-CMD ["/bin/bash"]
+CMD ["/bin/zsh"]
